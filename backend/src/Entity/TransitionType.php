@@ -38,9 +38,17 @@ class TransitionType
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $description;
+
+    /**
+     * TransitionType constructor.
+     */
+    public function __construct()
+    {
+        
+    }
 
     /**
      * @return int

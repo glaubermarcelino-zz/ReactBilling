@@ -12,11 +12,12 @@ namespace App\Services\Token\Storage;
 use App\Entity\User;
 use App\Entity\Token;
 use App\Entity\Login;
-use Doctrine\DBAL\ConnectionException;
 use Firebase\JWT\JWT;
 use App\Entity\AppClient;
 use App\Helpers\PasswordManager;
+use Firebase\JWT\ExpiredException;
 use App\Helpers\NotificationError;
+use Doctrine\DBAL\ConnectionException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,11 +26,36 @@ class TokenStorage
     private $entityManager;
     private const EXPIRES_TOKEN = 3600;
     private const EXPIRES_REFRESH = 10800;
-    private const SALT= 'c98c3fece0b458e39eedaf7412123a7e';
+    public const SALT= 'c98c3fece0b458e39eedaf7412123a7e';
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
+    }
+
+    public function validate(?string $token)
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('t.access_token', 'l.email')
+            ->from(Token::class, 't')
+            ->innerJoin(Login::class, 'l', "WITH", 't.login = l.id')
+            ->where(
+                $qb->expr()->eq('t.access_token', ':token')
+            )
+            ->setParameter('token', $token);
+
+        $q = $qb->getQuery();
+        $isToken = $q->getArrayResult();
+
+        if($isToken) {
+            try{
+                $decoded = JWT::decode($isToken[0]['access_token'], self::SALT, ['HS256']);
+                return $decoded->message === $isToken[0]['email'];
+            } catch (ExpiredException $error) {
+                return false;
+            }
+        }
+        return false;
     }
 
     private function generateToken(string $type, array $payload, string $alg = 'HS256')

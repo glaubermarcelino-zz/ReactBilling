@@ -29,6 +29,14 @@ class TransitionCategory
     private $id;
 
     /**
+     * @var TransitionType
+     *
+     * @ORM\ManyToOne(targetEntity="TransitionType")
+     * @ORM\JoinColumn(name="id_transition_type", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $type;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=40)
@@ -38,7 +46,7 @@ class TransitionCategory
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $description;
 
@@ -48,6 +56,24 @@ class TransitionCategory
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return TransitionType
+     */
+    public function getType(): TransitionType
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param TransitionType $type
+     * @return TransitionCategory
+     */
+    public function setType(TransitionType $type): self
+    {
+        $this->type = $type;
+        return $this;
     }
 
     /**
@@ -84,6 +110,14 @@ class TransitionCategory
     {
         $this->description = $description;
         return $this;
+    }
+
+    public function toArray()
+    {
+        return array(
+            'id' => $this->getId(),
+            'category' => $this->getCategory()
+        );
     }
 
 }

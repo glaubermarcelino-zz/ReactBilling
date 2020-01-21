@@ -52,4 +52,13 @@ class UserService
         }
         return false;
     }
+
+    public function lisOneLogged(NotificationError $notificationError, ?string $token)
+    {
+        $isData = $this->userStorage->lisOneLogged($notificationError, $token);
+        if($isData) {
+            return $isData;
+        }
+        return false;
+    }
 }

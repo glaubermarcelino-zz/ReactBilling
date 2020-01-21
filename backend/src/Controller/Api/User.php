@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Controller\Validate\AuthenticatedController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -23,7 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  *
  * @Route("/api/v1/user")
  */
-class User extends AbstractController
+class User extends AbstractController implements AuthenticatedController
 {
     /**
      * @Route("", methods={"OPTIONS", "POST"})
@@ -48,6 +49,27 @@ class User extends AbstractController
 
         if($isOK) {
             $response = new Response(null, Response::HTTP_CREATED);
+        } else {
+            $response = new JsonResponse($notificationError->getErrors(), $notificationError->getSatusCode());
+        }
+        return $response;
+    }
+
+    /**
+     * @Route("/logged", methods={"OPTIONS", "GET"})
+     *
+     * @param UserService $userService
+     * @param Request $request
+     * @return Response
+     */
+    public function listOneLogged(Request $request, UserService $userService): Response
+    {
+        $notificationError = new NotificationError();
+        $token = $request->headers->get('Authorization');
+        $isData = $userService->lisOneLogged($notificationError, $token);
+
+        if($isData) {
+            $response = new JsonResponse($isData, Response::HTTP_OK);
         } else {
             $response = new JsonResponse($notificationError->getErrors(), $notificationError->getSatusCode());
         }

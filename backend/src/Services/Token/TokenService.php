@@ -19,6 +19,11 @@ class TokenService
     private $entityManager;
     private $tokenStorage;
 
+    public function validate(?string $token)
+    {
+        return $this->tokenStorage->validate($token);
+    }
+
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -41,4 +46,6 @@ class TokenService
 
         return false;
     }
+
+
 }

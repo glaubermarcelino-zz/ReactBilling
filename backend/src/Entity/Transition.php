@@ -23,7 +23,7 @@ class Transition
      * @var integer
      *
      * @ORM\Id()
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="integer", length=100)
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -51,6 +51,13 @@ class Transition
      * @ORM\JoinColumn(name="id_transition_category", referencedColumnName="id", onDelete="CASCADE")
      */
     private $category;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=50)
+     */
+    private $name;
 
     /**
      * @var float
@@ -148,6 +155,25 @@ class Transition
         $this->category = $category;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Transition
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
 
     /**
      * @return float

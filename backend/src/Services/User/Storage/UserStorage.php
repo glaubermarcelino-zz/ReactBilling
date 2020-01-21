@@ -14,8 +14,10 @@ use App\Entity\Login;
 use App\Entity\LoginUser;
 use App\Helpers\PasswordManager;
 use App\Helpers\NotificationError;
+use App\Services\Token\Storage\TokenStorage;
 use Doctrine\DBAL\ConnectionException;
 use Doctrine\ORM\EntityManagerInterface;
+use Firebase\JWT\JWT;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserStorage
@@ -79,6 +81,37 @@ class UserStorage
                 $this->entityManager->getConnection()->rollBack();
                 return false;
             }
+        }
+
+        return false;
+    }
+
+    public function lisOneLogged(NotificationError $notificationError, ?string $token)
+    {
+        $decoded = JWT::decode($token, TokenStorage::SALT, ['HS256']);
+
+        $qb = $this->entityManager->createQueryBuilder();
+
+        $qb->select("u.name", "u.email", "u.cpf", "u.cell_phone", "u.date_created")
+            ->from(User::class, 'u')
+            ->where(
+                $qb->expr()->eq('u.email', ':email')
+            )
+            ->setParameter('email', $decoded->message);
+
+        $q = $qb->getQuery();
+
+        try {
+            $user = $q->getArrayResult();
+            if($user) {
+                $user[0]['date_created'] = date('d-m-Y H:i', $user[0]['date_created']->getTimestamp());
+                return $user[0];
+            }
+            $notificationError->setStatusCode(Response::HTTP_NOT_FOUND);
+            return $user;
+        } catch (\Exception $error) {
+            echo $error->getMessage();
+            return false;
         }
     }
 }

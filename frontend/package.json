@@ -1,0 +1,69 @@
+{
+  "name": "reactype",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/history": "^4.7.3",
+    "@types/jest": "^24.0.0",
+    "@types/jquery": "^3.3.31",
+    "@types/node": "^12.0.0",
+    "@types/qs": "^6.9.0",
+    "@types/react": "^16.9.0",
+    "@types/react-datepicker": "^2.10.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.5",
+    "@types/react-router": "^5.1.4",
+    "@types/react-router-dom": "^5.1.3",
+    "@types/react-select": "^3.0.10",
+    "@types/redux": "^3.6.0",
+    "@types/redux-promise": "^0.5.28",
+    "@types/redux-saga": "^0.10.5",
+    "@types/redux-thunk": "^2.1.0",
+    "@types/sweetalert": "^2.0.4",
+    "admin-lte": "^3.0.0",
+    "axios": "^0.19.1",
+    "connected-react-router": "^6.6.1",
+    "history": "^4.10.1",
+    "jquery": "^3.4.1",
+    "qs": "^6.9.1",
+    "react": "^16.12.0",
+    "react-datepicker": "^2.11.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.1.3",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.3.0",
+    "react-select": "^3.0.8",
+    "redux": "^4.0.5",
+    "redux-promise": "^0.6.0",
+    "redux-saga": "^1.1.3",
+    "redux-thunk": "^2.3.0",
+    "sweetalert": "^2.1.2",
+    "typesafe-actions": "^5.1.0",
+    "typescript": "~3.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

@@ -1,5 +1,5 @@
 export enum Constants {
-    API_URL = 'http://reactype.com',
+    API_URL = 'http://0.0.0.0:8000',
     STORAGE_USER = 'STORAGE_USER',
     STORAGE_TOKEN = 'STORAGE_TOKEN',
     STORAGE_REFRESH = 'STORAGE_REFRESH',
